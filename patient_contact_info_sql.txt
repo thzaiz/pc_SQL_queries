@@ -1,0 +1,43 @@
+
+
+/* FIND PATIENT EMAIL ADDRESSES FROM FACILITY 13 */
+SELECT users_patient_bio.pat_user_id, users.LastName, users.FirstName, DATE_FORMAT(users.usr_dob,'%m-%d-%Y'), ContactData, users_patient_bio.pat_current_facility
+FROM contactresources
+INNER JOIN contactresources_to_users ON contactresources_to_users.ContactResourceID = contactresources.ContactResourceID
+INNER JOIN users_patient_bio ON users_patient_bio.pat_user_id = contactresources_to_users.UserID
+INNER JOIN users ON users.UserID = users_patient_bio.pat_user_id
+WHERE pat_current_facility = 13 
+AND ResourceTypeID = 9 
+AND ContactData NOT IN (/* ENTER INVAILD ADDRESSES HERE */) ORDER BY users.LastName, users.FirstName
+LIMIT 10
+
+/* FIND PATIENT PHONE NUMBERS FROM FACILITY 13 */
+SELECT users_patient_bio.pat_user_id, users.LastName, users.FirstName, DATE_FORMAT(users.usr_dob,'%m-%d-%Y'), ContactData, users_patient_bio.pat_current_facility, ResourceTypeID
+FROM contactresources
+INNER JOIN contactresources_to_users ON contactresources_to_users.ContactResourceID = contactresources.ContactResourceID
+INNER JOIN users_patient_bio ON users_patient_bio.pat_user_id = contactresources_to_users.UserID
+INNER JOIN users ON users.UserID = users_patient_bio.pat_user_id
+WHERE pat_current_facility = 13 
+AND ResourceTypeID NOT IN (9, 141, 174, 8) 
+ ORDER BY users.LastName, users.FirstName
+LIMIT 10
+
+
+SELECT users_patient_bio.pat_user_id, users.LastName, users.FirstName, DATE_FORMAT(users.usr_dob,'%m-%d-%Y'), ContactData, users_patient_bio.pat_current_facility
+FROM contactresources
+INNER JOIN contactresources_to_users ON contactresources_to_users.ContactResourceID = contactresources.ContactResourceID
+INNER JOIN users_patient_bio ON users_patient_bio.pat_user_id = contactresources_to_users.UserID
+INNER JOIN users ON users.UserID = users_patient_bio.pat_user_id
+WHERE pat_current_facility = 13 
+AND ResourceTypeID NOT IN (9, 141, 174, 8) 
+ ORDER BY users.LastName, users.FirstName
+ 
+ 
+/* FIND PATIENTS FROM FACILITY 13 */
+SELECT pat_user_id, users.LastName, users.FirstName, DATE_FORMAT(users.usr_dob,'%m-%d-%Y'), pat_current_facility
+FROM users_patient_bio
+INNER JOIN users ON users.UserID = users_patient_bio.pat_user_id
+WHERE pat_current_facility = 13
+ORDER BY users.LastName, users.FirstName
+ 
+
